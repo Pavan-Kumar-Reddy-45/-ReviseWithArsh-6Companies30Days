@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int uniqueCnt2) {
+        function<int(int, int)> gcd = [&gcd](int a, int b) -> int {
+            if (b == 0) return a;
+            return gcd(b, a % b);
+        };
+
+        int gcdn = gcd(divisor1, divisor2);
+        long lcm = divisor1 * 1L * divisor2 / gcdn;
+
+        auto check = [&](long n) -> bool {
+            int rmd1 = uniqueCnt1 - n / divisor2 + n / lcm;
+            int rmd2 = uniqueCnt2 - n / divisor1 + n / lcm;
+            if (rmd1 <= 0 && rmd2 <= 0) return true;
+            rmd1 = max(rmd1, 0);
+            rmd2 = max(rmd2, 0);
+            return n - n/divisor2 - n/divisor1 + n/lcm >= rmd2 + rmd1;
+        };
+
+        long l = 1, r = INT_MAX;
+        while (l < r) {
+            int mid = l + (r - l) / 2;
+            if (check(mid))
+                r = mid;
+            else
+                l = mid + 1;
+        }
+        return l;
+    }
+};
