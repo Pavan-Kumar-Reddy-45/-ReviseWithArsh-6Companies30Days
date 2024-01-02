@@ -1,0 +1,25 @@
+
+class DataStream {
+public:
+    int val,k;
+    priority_queue<int>q;
+    DataStream(int value, int k) {
+        val=value;
+        this->k=k;
+    }
+    
+    bool consec(int num) {
+        if(num!=val){
+            q = priority_queue <int>();
+        }
+        else{
+            if(q.size()==k)return true;
+            else if(q.size()<k){
+                q.push(num);
+            }
+
+        }
+        return q.size()==k;
+        
+    }
+};
