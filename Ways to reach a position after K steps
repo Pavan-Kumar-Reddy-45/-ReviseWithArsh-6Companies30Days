@@ -1,0 +1,21 @@
+class Solution {
+    int mod=1e9+7;
+    int solve(int cur,int mov,int &end,int &k,map<pair<int,int>,int> &memo){
+        if(mov==k){
+            return cur==end;
+        }
+        int diff=abs(cur-end),v=k-mov;
+        if(diff>v||(diff%2==0&&v%2==1)||(diff%2==1&&v%2==0)) return 0; 
+        if(memo.find({cur,mov})!=memo.end()) return memo[{cur,mov}];
+        int l=solve(cur+1,mov+1,end,k,memo);
+        int r=solve(cur-1,mov+1,end,k,memo);
+        return memo[{cur,mov}]=(l+r)%mod;
+    }
+public:
+    int numberOfWays(int startPos, int endPos, int k) {
+        map<pair<int,int>,int> memo;
+        int diff=abs(startPos-endPos);
+        if((diff%2==0&&k%2==1)||(diff%2==1&&k%2==0)) return 0; 
+        return solve(startPos,0,endPos,k,memo);
+    }
+};
