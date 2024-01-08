@@ -1,0 +1,1 @@
+This repository is dedicated to a coding-centric journey through a personalized 30-day challenge. The primary goal is to sharpen my coding skills and prepare for technical interviews. The challenge involves six companies, each with its unique focus, aiming to elevate my proficiency in algorithmic problem-solving, data structures, and coding challenges.
