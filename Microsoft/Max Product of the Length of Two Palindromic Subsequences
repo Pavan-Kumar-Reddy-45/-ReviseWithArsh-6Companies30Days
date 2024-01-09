@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int maxProduct(string s) {
+        int n=s.size();
+        vector<pair<int,int>>vec;
+        for(int i=0;i<(1<<n);i++){
+            string sub="";
+            for(int j=0;j<n;j++){
+                if(i&(1<<j)){
+                    sub+=s[j];
+                }
+            }
+            string sub2=sub;
+            reverse(sub2.begin(),sub2.end());
+            if(sub==sub2){
+               vec.push_back({i,sub.size()});
+                }
+
+        }
+        int ans=0;
+        for(int i=0;i<vec.size();i++){
+            for(int j=i+1;j<vec.size();j++){
+                if((vec[i].first & vec[j].first)==0){
+                    ans=max(ans,vec[i].second*vec[j].second);
+                }
+            }
+        }
+        return ans;
+
+
+    }
+};
