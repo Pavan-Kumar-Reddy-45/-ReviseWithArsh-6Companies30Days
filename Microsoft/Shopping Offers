@@ -1,0 +1,77 @@
+class Solution {
+
+private:
+    vector<int> p;
+    vector<int> n;
+    vector<vector<int>> s;
+
+    map<vector<int>, int> m;
+
+public:
+
+    int solve(vector<int> reqs)
+    {
+        if (m.find(reqs) != m.end())
+        {
+            return m[reqs];
+        }
+
+        bool noreq = true;
+
+        for (auto &req:reqs)
+        {
+            if (req)
+            {
+                noreq = false;
+                break;
+            }
+        }
+
+        if (noreq)
+            return 0;
+
+        int n = reqs.size();
+        int currCost = 0;
+
+        for (int i=0;i<n;i++)
+        {
+            currCost += reqs[i] * p[i];
+        }
+
+        for (auto &offer : s)
+        {
+            bool select = true;
+            for (int i=0;i<n;i++)
+            {
+                if (reqs[i]<offer[i])
+                {
+                    select = false;
+                    break;
+                }
+            }
+
+            if (select)
+            {
+                auto offerCost = offer[n];
+
+                vector<int> newReqs;
+                for (int i=0;i<n;i++)
+                {
+                    newReqs.push_back(reqs[i]-offer[i]);
+                }
+
+                currCost = min(currCost, offerCost + solve(newReqs));
+            }
+        }
+
+        return m[reqs] = currCost;
+    }
+
+    int shoppingOffers(vector<int>& price, vector<vector<int>>& special, vector<int>& needs) {
+        p = price;
+        s = special;
+        n = needs;
+
+        return solve(needs);
+    }
+};
