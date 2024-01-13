@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        int n = words.size();
+        unordered_map<string, int> mp;
+        for(auto i: words){
+            mp[i]++;
+        }
+        set<string> bucket[n+1];
+        for(auto i: mp){
+            bucket[i.second].insert(i.first);
+        }
+        vector<string> ans;
+        for(int i=n;i>0;i--){
+            for(auto j: bucket[i]){
+                ans.push_back(j);
+                if(ans.size() == k)
+                    return ans;
+            }
+        }
+        return ans;
+    }
+};
