@@ -1,0 +1,47 @@
+class Solution {
+public:
+    int findLowerBound(vector<int>& a,int n,int x)
+    {
+        int l=0;
+        int r=n-1;
+        int ans=-1;
+        while(l<=r)
+        {
+            int mid=l+(r-l)/2;
+            if(a[mid]>x/2+7)
+            {
+                ans=mid;
+                r=mid-1;
+            }
+            else l=mid+1;
+        }
+
+        return ans;
+    }
+
+    int numFriendRequests(vector<int>& a) {
+        
+        sort(a.begin(),a.end());
+        int count=0;
+        int n=a.size();
+        for(int i=0;i<n;i++)
+        {
+
+            int j=i;
+            int sameOccurences=0;
+            while(j<n && a[i]==a[j])
+            {
+                j++;
+                sameOccurences++;
+            }
+            int lowerBound=findLowerBound(a,j-1,a[i]);
+            if(lowerBound!=-1)
+            {
+                count+=(j-1-lowerBound)*sameOccurences;
+            }
+            i=j-1;
+        }
+
+        return count;
+    }
+};
