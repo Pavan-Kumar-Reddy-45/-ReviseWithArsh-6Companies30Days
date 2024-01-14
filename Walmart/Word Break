@@ -1,0 +1,22 @@
+class Solution {
+public:
+    vector<int> dp;
+    bool sol(string &s, vector<string>& dic, int i){
+        if(i == s.length()) return 1;
+        if(dp[i] != -1) return dp[i];
+        int pr = i;
+        for(auto ss: dic){
+            if(s[i] == ss[0] && ss.length() <= s.length()-i && s.substr(i,ss.length()) == ss){
+                bool tem = sol(s,dic,i+ss.length());
+                if(tem) return dp[i] = 1;
+            }
+        }
+        return dp[i] = 0;
+    }
+
+    bool wordBreak(string s, vector<string>& wordDict) {
+        int i = 0;
+        dp.resize(s.length(),-1);
+        return sol(s,wordDict,0);
+    }
+};
