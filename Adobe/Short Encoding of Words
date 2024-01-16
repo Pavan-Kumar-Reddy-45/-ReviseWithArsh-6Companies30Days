@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int minimumLengthEncoding(vector<string>& w) {
+        unordered_set<string> set(w.begin(), w.end());
+        int result = 0;
+        for(auto& s: set)
+            for(int i = 1; i < s.size(); i++)
+                set.erase(s.substr(i));
+        for(auto& s: set)
+            result += s.size() + 1;
+        return result;
+    }
+};
