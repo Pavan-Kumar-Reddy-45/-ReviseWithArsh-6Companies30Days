@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int constrainedSubsetSum(vector<int>& nums, int k) {
+        
+        priority_queue<int>pq;
+        unordered_map<int,int>mp;
+        int maxi=nums[0],ptr=0;
+        pq.push(nums[0]);
+        for(int i=1;i<nums.size();i++){
+            if(i-k>ptr){
+                mp[nums[ptr]]++;
+                ptr++;
+            }
+            while(mp[pq.top()]>0){  
+                mp[pq.top()]--;
+                pq.pop();
+            }
+            
+            nums[i]+= max(0,pq.top());
+            maxi=max(maxi,nums[i]);
+            pq.push(nums[i]);
+        }
+        return maxi;
+    }
+};
