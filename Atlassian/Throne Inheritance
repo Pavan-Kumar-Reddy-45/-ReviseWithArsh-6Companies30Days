@@ -1,0 +1,35 @@
+class ThroneInheritance {
+    std::unordered_map<string,vector<string>> childrenOf{}; 
+    std::unordered_map<string,bool> isAlive{}; 
+    string m_king; 
+public:
+    ThroneInheritance(string kingName) {
+        isAlive[kingName] = true;
+        m_king = kingName;   
+    }
+    
+    void birth(string parentName, string childName) {
+        childrenOf[parentName].emplace_back(childName); 
+        isAlive[childName] = true; 
+    }
+    
+    void death(string name) {
+        isAlive[name] = false; 
+        
+    }
+    
+    vector<string> getInheritanceOrder() {
+        vector<string> ans{}; 
+        getOrderRecursive(ans,m_king); 
+        return ans; 
+    }
+
+    void getOrderRecursive(vector<string>& ans, string cur){
+        if(isAlive[cur]){
+            ans.push_back(cur);
+        } 
+        for(const auto& child : childrenOf[cur]){
+            getOrderRecursive(ans,child); 
+        }
+    }
+};
