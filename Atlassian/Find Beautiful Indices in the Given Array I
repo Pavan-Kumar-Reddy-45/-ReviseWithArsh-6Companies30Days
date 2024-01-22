@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<int> beautifulIndices(string s, string a, string b, int k) {
+        int n=s.size();
+        int al=a.size();
+        int bl=b.size();
+        
+        vector<int>ans,A,B;
+        for(int i=0;i<n;i++)
+        {
+            string temp=s.substr(i,al);
+            if(temp==a)A.push_back(i);
+        }
+        for(int i=0;i<n;i++)
+        {
+            string temp=s.substr(i,bl);
+            if(temp==b)B.push_back(i);
+        }
+        
+        for(int i=0;i<A.size();i++)
+        {
+            for(int j=0;j<B.size();j++)
+            {
+                if(abs(A[i]-B[j])<=k)
+                {
+                    ans.push_back(A[i]);
+                    break;
+                }
+            }
+        }
+        return ans;
+    }
+};
