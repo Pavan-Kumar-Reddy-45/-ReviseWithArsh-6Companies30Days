@@ -1,0 +1,49 @@
+class Solution {
+    struct TreeNode {
+        std::array<std::unique_ptr<TreeNode>, 26> children;
+        bool is_word{false};
+    };
+
+    std::unique_ptr<TreeNode> m_root;
+    std::vector<bool> check_exist;
+
+    void Insert(std::string_view word) {
+        auto curr = m_root.get();
+        for (int i = 0; i < word.size(); ++i) {
+            if (!curr->children[word[i] - 'a']) {
+                curr->children[word[i] - 'a'] = std::make_unique<TreeNode>();
+            }
+            curr = curr->children[word[i] - 'a'].get();
+        }
+        curr->is_word = true;
+    }
+
+    bool CheckPrefixExist(std::string_view word, int index, TreeNode* curr, bool skip) {
+        if (!curr) return false;
+        if (index == word.size()) {
+            return !skip && curr->is_word;
+        }
+        if (skip && CheckPrefixExist(word, index + 1, curr, false)) {
+            return true;  
+        }
+
+        return CheckPrefixExist(word, index + 1, curr->children[word[index] - 'a'].get(), skip);
+    }
+
+public:
+    int wordCount(vector<string>& startWords, vector<string>& targetWords) {
+        m_root = std::make_unique<TreeNode>();
+        check_exist.resize(26, false);
+        int ans = 0;
+        for (auto& s : startWords) {
+            std::sort(s.begin(), s.end()); 
+            Insert(s);
+        }
+        for (auto s : targetWords) {
+            std::sort(s.begin(), s.end()); 
+            if (CheckPrefixExist(s, 0, m_root.get(), true)) ++ans;
+        }
+        return ans;
+
+    }
+};
