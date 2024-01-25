@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int longestString(int x, int y, int z) {
+        if(x==y){
+            return (x+y+z)*2;
+        }
+        else{
+            if(y>x){
+                return (2*x+z+1)*2;
+            }
+            else{
+                return(2*y+z+1)*2;    
+            }
+        }
+    }
+};
