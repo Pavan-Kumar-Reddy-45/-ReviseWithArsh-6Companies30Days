@@ -1,0 +1,41 @@
+class Solution {
+public:
+    void insert( int i, vector<int>&a ){
+        while ( i>0 && a[i]<a[(i-1)/2] ){
+            swap(a[i],a[(i-1)/2]);
+            i=(i-1)/2;
+        }
+    }
+    void remove( int i, vector<int>&a ){
+        swap(a[0],a[i]);
+        int x=0;
+        while ( x*2+1<i ){
+            int j=x*2+1;
+            if ( x*2+2<i && a[j]>a[x*2+2] ){
+                j=2*x+2;
+            }
+            if ( a[x]<=a[j] ){
+                break;
+            }
+            swap(a[x],a[j]);
+            x=j;
+        }
+    }
+    int maximumProduct(vector<int>& nums, int k) {
+        for ( int i=0; i<nums.size(); i++ ){
+            insert(i,nums);
+        }
+        while ( k-- ){
+            remove(nums.size()-1,nums);
+            nums[nums.size()-1]++;
+            insert(nums.size()-1,nums);
+        }
+        long long ans=1;
+        for ( int i=0; i<nums.size(); i++ ){
+            ans*=nums[i];
+            ans%=(1000000007);
+        }
+        k=ans;
+        return k;
+    }
+};
